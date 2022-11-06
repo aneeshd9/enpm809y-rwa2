@@ -1,6 +1,6 @@
 #include "robot.h"
 
-#include <iostream>
+#include <ostream>
 #include <utility>
 
 rwa2group9::Robot::Robot() {
@@ -8,8 +8,8 @@ rwa2group9::Robot::Robot() {
   m_direction = 'n';
 }
 
-void rwa2group9::Robot::debug_print() const {
-  std::cout << "The robot is at (" << this->m_position.first << ", "
-    << this->m_position.second << ")" << std::endl;
-  std::cout << "The direction of the robot is " << this->m_direction << std::endl;
+std::ostream& rwa2group9::operator<<(std::ostream& os, const rwa2group9::Robot& robot) {
+  os << "The robot is at (" << robot.m_position.first << ", " << robot.m_position.second
+    << ") and is facing " << robot.m_direction << "!";
+  return os;
 }

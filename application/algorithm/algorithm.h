@@ -3,6 +3,7 @@
 
 #include <array>
 #include <memory>
+#include <ostream>
 #include <utility>
 
 #include "../cell/cell.h"
@@ -19,16 +20,22 @@ public:
   void set_right_wall();
   void set_left_wall();
   void set_front_wall();
+  void reset();
 
   Algorithm();
 
+  friend std::ostream& operator<<(std::ostream& os, const Algorithm& algo);
 private:
   std::array<std::array<rwa2group9::Cell, 16>, 16> m_maze;
   std::unique_ptr<rwa2group9::Robot> robot;
   std::pair<int, int> goal;
   int m_maze_height;
   int m_maze_width;
+
+  void reset_members();
 };
+
+std::ostream& operator<<(std::ostream& os, const Algorithm& algo);
 } // namespace rwa2group9
 
 #endif // __ALGORITHM_H__

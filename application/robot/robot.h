@@ -1,6 +1,7 @@
 #ifndef __ROBOT_H__
 #define __ROBOT_H__
 
+#include <ostream>
 #pragma once
 
 #include <utility>
@@ -18,8 +19,10 @@ public:
 
   Robot();
 
-  void debug_print() const;
+  friend std::ostream& operator<<(std::ostream& os, const Robot& robot);
 };
+
+std::ostream& operator<<(std::ostream& os, const Robot& robot);
 } // namespace rwa2group9
 
 #endif
