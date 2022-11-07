@@ -1,4 +1,5 @@
 #include "robot.h"
+#include "../simulator/simulator.h"
 
 #include <ostream>
 #include <utility>
@@ -6,6 +7,57 @@
 rwa2group9::Robot::Robot() {
   m_position = std::make_pair(0, 0);
   m_direction = 'n';
+}
+
+void rwa2group9::Robot::turn_left() {
+  if (this->m_direction == 'n') {
+    this->m_direction = 'w';
+  }
+  else if (this->m_direction == 'w') {
+    this->m_direction = 's';
+  }
+  else if (this->m_direction == 's') {
+    this->m_direction = 'e';
+  }
+  else {
+    this->m_direction = 'n';
+  }
+
+  Simulator::turnLeft();
+}
+
+void rwa2group9::Robot::turn_right() {
+  if (this->m_direction == 'n') {
+    this->m_direction = 'e';
+  }
+  else if (this->m_direction == 'e') {
+    this->m_direction = 's';
+  }
+  else if (this->m_direction == 's') {
+    this->m_direction = 'w';
+  }
+  else {
+    this->m_direction = 'n';
+  }
+
+  Simulator::turnRight();
+}
+
+void rwa2group9::Robot::move_forward() {
+  if (this->m_direction == 'n') {
+    this->m_position.second += 1;
+  }
+  else if (this->m_direction == 's') {
+    this->m_position.second -= 1;
+  }
+  else if (this->m_direction == 'e') {
+    this->m_position.first += 1;
+  }
+  else {
+    this->m_position.first -= 1;
+  }
+
+  Simulator::moveForward();
 }
 
 std::ostream& rwa2group9::operator<<(std::ostream& os, const rwa2group9::Robot& robot) {
