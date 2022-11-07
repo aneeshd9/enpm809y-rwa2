@@ -11,6 +11,7 @@
 #include <string>
 #include <utility>
 #include <experimental/random>
+#include <vector>
 
 rwa2group9::Algorithm::Algorithm() {
   std::cerr << "Initializing algorithm!" << std::endl;
@@ -32,6 +33,7 @@ void rwa2group9::Algorithm::reset_members() {
   this->goal = std::make_pair(-1, -1);
   this->m_maze_height = Simulator::mazeHeight();
   this->m_maze_width = Simulator::mazeWidth();
+  this->path = std::vector<std::pair<int, int>>();
 }
 
 void rwa2group9::Algorithm::reset_simulator() {
@@ -166,11 +168,16 @@ void rwa2group9::Algorithm::follow_wall_right() {
   }
 }
 
+void rwa2group9::Algorithm::remove_loops_in_path() {
+
+}
+
 void rwa2group9::Algorithm::run(const std::string direction) {
   std::cerr << *this << std::endl;
 
   this->generate_goal();
   this->init_outer_walls();
+  this->path.push_back(std::make_pair(0, 0));
 
   while (this->robot->at() != this->goal) {
     if (Simulator::wasReset()) {
@@ -179,6 +186,7 @@ void rwa2group9::Algorithm::run(const std::string direction) {
       Simulator::ackReset();
       this->generate_goal();
       this->init_outer_walls();
+      this->path.push_back(std::make_pair(0, 0));
       std::cerr << *this << std::endl;
     }
 
@@ -190,6 +198,7 @@ void rwa2group9::Algorithm::run(const std::string direction) {
     else {
       rwa2group9::Algorithm::follow_wall_right();
     }
+    this->path.push_back(this->robot->at());
     std::cerr << *this << std::endl;
   }
 }
@@ -207,6 +216,11 @@ std::ostream& rwa2group9::operator<<(std::ostream& os, const rwa2group9::Algorit
       os << algo.m_maze[i][j] << " ";
     }
     os << std::endl;
+  }
+  os << std::endl;
+  os << "The path found is: " << std::endl;
+  for (std::pair<int, int> pos: algo.path) {
+    os << "(" << pos.first << ", " << pos.second << ") ";
   }
   os << std::endl;
   return os;
