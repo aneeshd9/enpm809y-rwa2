@@ -131,7 +131,34 @@ void rwa2group9::Algorithm::follow_wall_left() {
   }
 }
 
-void rwa2group9::Algorithm::run(std::string direction) {
+void rwa2group9::Algorithm::follow_wall_right() {
+  std::pair<int, int> pos = this->robot->at();
+  int x = pos.first;
+  int y = pos.second;
+  Cell current = this->m_maze.at(x).at(y);
+  char forward_direction = this->robot->direction();
+  char left_direction = rwa2group9::Utils::next_direction_left(forward_direction);
+  char right_direction = rwa2group9::Utils::next_direction_right(forward_direction);
+
+  if (!current.is_wall(rwa2group9::Utils::direction_to_int(right_direction))) {
+    this->robot->turn_right();
+    this->robot->move_forward();
+  }
+  else if (!current.is_wall(rwa2group9::Utils::direction_to_int(forward_direction))) {
+    this->robot->move_forward();
+  }
+  else if (!current.is_wall(rwa2group9::Utils::direction_to_int(left_direction))) {
+    this->robot->turn_left();
+    this->robot->move_forward();
+  }
+  else {
+    this->robot->turn_right();
+    this->robot->turn_right();
+    this->robot->move_forward();
+  }
+}
+
+void rwa2group9::Algorithm::run(const std::string direction) {
   std::cerr << *this << std::endl;
 
   this->generate_goal();
@@ -147,8 +174,14 @@ void rwa2group9::Algorithm::run(std::string direction) {
       std::cerr << *this << std::endl;
     }
 
+    Simulator::setColor(this->robot->at().first, this->robot->at().second, 'c');
     this->detect_walls();
-    rwa2group9::Algorithm::follow_wall_left();
+    if (direction == "left") {
+      rwa2group9::Algorithm::follow_wall_left();
+    }
+    else {
+      rwa2group9::Algorithm::follow_wall_right();
+    }
     std::cerr << *this << std::endl;
   }
 }
