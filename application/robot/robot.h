@@ -16,6 +16,8 @@ public:
   void turn_left();
   void turn_right();
   void move_forward();
+  std::pair<int, int> at();
+  char direction();
 
   Robot();
 

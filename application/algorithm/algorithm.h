@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <utility>
 
 #include "../cell/cell.h"
@@ -12,7 +13,7 @@
 namespace rwa2group9 {
 class Algorithm {
 public:
-  void run();
+  void run(std::string direction);
   void init_outer_walls();
   void follow_wall_left();
   void follow_wall_right();
@@ -33,6 +34,8 @@ private:
   int m_maze_width;
 
   void reset_members();
+  void reset_simulator();
+  void detect_walls();
 };
 
 std::ostream& operator<<(std::ostream& os, const Algorithm& algo);

@@ -2,19 +2,21 @@
 #include <string>
 
 #include "algorithm/algorithm.h"
-#include "simulator/simulator.h"
 
 int main(int argc, char *argv[]) {
+  std::string direction;
+  if (argc > 1) {
+    std::string argv1 {argv[1]};
+    if (argv1 == "-right") {
+      direction = "right";
+    }
+    else {
+      direction = "left";
+    }
+  }
+
   rwa2group9::Algorithm algo;
+  algo.run(direction);
 
-  std::cerr << algo << std::endl;
-
-  // while (true) {
-  //   if (Simulator::wasReset()) {
-  //     std::cerr << "Simulator reset button pressed!" << std::endl;
-  //     // Perform reset
-  //     Simulator::ackReset();
-  //   }
-  // }
   return 0;
 }

@@ -1,5 +1,6 @@
 #include "robot.h"
 #include "../simulator/simulator.h"
+#include "../utils/utils.h"
 
 #include <ostream>
 #include <utility>
@@ -10,36 +11,12 @@ rwa2group9::Robot::Robot() {
 }
 
 void rwa2group9::Robot::turn_left() {
-  if (this->m_direction == 'n') {
-    this->m_direction = 'w';
-  }
-  else if (this->m_direction == 'w') {
-    this->m_direction = 's';
-  }
-  else if (this->m_direction == 's') {
-    this->m_direction = 'e';
-  }
-  else {
-    this->m_direction = 'n';
-  }
-
+  this->m_direction = rwa2group9::Utils::next_direction_left(this->m_direction);
   Simulator::turnLeft();
 }
 
 void rwa2group9::Robot::turn_right() {
-  if (this->m_direction == 'n') {
-    this->m_direction = 'e';
-  }
-  else if (this->m_direction == 'e') {
-    this->m_direction = 's';
-  }
-  else if (this->m_direction == 's') {
-    this->m_direction = 'w';
-  }
-  else {
-    this->m_direction = 'n';
-  }
-
+  this->m_direction = rwa2group9::Utils::next_direction_right(this->m_direction);
   Simulator::turnRight();
 }
 
@@ -58,6 +35,14 @@ void rwa2group9::Robot::move_forward() {
   }
 
   Simulator::moveForward();
+}
+
+std::pair<int, int> rwa2group9::Robot::at() {
+  return this->m_position;
+}
+
+char rwa2group9::Robot::direction() {
+  return this->m_direction;
 }
 
 std::ostream& rwa2group9::operator<<(std::ostream& os, const rwa2group9::Robot& robot) {
