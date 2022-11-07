@@ -37,6 +37,14 @@ void rwa2group9::Algorithm::reset_members() {
 void rwa2group9::Algorithm::reset_simulator() {
   Simulator::clearAllColor();
   Simulator::clearAllText();
+  for (int i = 0; i < Simulator::mazeWidth(); ++i) {
+    for (int j = 0; j < Simulator::mazeHeight(); ++j) {
+      Simulator::clearWall(i, j, 'n');
+      Simulator::clearWall(i, j, 'e');
+      Simulator::clearWall(i, j, 's');
+      Simulator::clearWall(i, j, 'w');
+    }
+  }
 }
 
 void rwa2group9::Algorithm::generate_goal() {
