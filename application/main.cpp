@@ -4,7 +4,7 @@
 #include "algorithm/algorithm.h"
 
 int main(int argc, char *argv[]) {
-  std::string direction;
+  std::string direction {"left"};
   if (argc > 1) {
     std::string argv1 {argv[1]};
     if (argv1 == "-right") {
