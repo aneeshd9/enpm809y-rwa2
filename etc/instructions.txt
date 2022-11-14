@@ -2,9 +2,17 @@
 ------------------------------------------------------------------------
 Build the application
 ------------------------------------------------------------------------
-g++ -std=c++17 -g main.cpp simulator/simulator.cpp <add other files here> -o main
+g++ -std=c++17 -g main.cpp simulator/simulator.cpp utils/utils.cpp algorithm/algorithm.cpp robot/robot.cpp cell/cell.cpp -o main
 
 ------------------------------------------------------------------------
 To switch between left-hand rule approach and right-hand rule approach
 ------------------------------------------------------------------------
-Explain what to modify in your code to switch between the left-hand rule and the right-hand rule approaches
+The program uses a command line argument to decide which approach to use. After using above command to build,
+
+Use below command to run left-hand rule:
+./main -left
+
+Or use below command to run right-hand rule:
+./main -right
+
+If no command line argument is specified, it runs the left-hand approach.

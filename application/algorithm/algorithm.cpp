@@ -50,17 +50,20 @@ void rwa2group9::Algorithm::reset_simulator() {
 }
 
 void rwa2group9::Algorithm::generate_goal() {
-  int x = -1, y = -1;
-  x = std::experimental::randint(0, 15);
-  if (x == 0 || x == 15) {
-    y = std::experimental::randint(0, 15);
-  } else {
-    y = std::experimental::randint(0, 1) * 15;
-  }
+  // int x = -1, y = -1;
+  // x = std::experimental::randint(0, 15);
+  // if (x == 0 || x == 15) {
+  //   y = std::experimental::randint(0, 15);
+  // } else {
+  //   y = std::experimental::randint(0, 1) * 15;
+  // }
 
-  this->goal = std::make_pair(x, y);
-  Simulator::setText(x, y, "G");
-  Simulator::setColor(x, y, 'r');
+  // this->goal = std::make_pair(x, y);
+  // Simulator::setText(x, y, "G");
+  // Simulator::setColor(x, y, 'r');
+  this->goal = std::make_pair(12, 0);
+  Simulator::setText(12, 0, "G");
+  Simulator::setColor(12, 0, 'r');
 }
 
 void rwa2group9::Algorithm::init_outer_walls() {
@@ -168,8 +171,41 @@ void rwa2group9::Algorithm::follow_wall_right() {
   }
 }
 
-void rwa2group9::Algorithm::remove_loops_in_path() {
+std::vector<std::pair<int, int>> rwa2group9::Algorithm::remove_loops_in_path() {
+  std::array<std::array<std::pair<bool, int>, 16>, 16> visited;
+  for (int i = 0; i < 16; ++i) {
+    for (int j = 0; j < 16; ++j) {
+      visited.at(i).at(j) = std::make_pair(false, -1);
+    }
+  }
+  std::vector<std::pair<int, int>> path_copy {this->path};
+  for (int i = 0; i < this->path.size(); ++i) {
+    std::pair<int, int> pos = this->path.at(i);
+    if (visited.at(pos.first).at(pos.second).first == true) {
+      auto first = path_copy.begin() + visited.at(pos.first).at(pos.second).second;
+      auto last = path_copy.begin() + i + 1;
+      path_copy.erase(first, last);
+    }
+    else {
+      visited.at(pos.first).at(pos.second) = std::make_pair(true, i);
+    }
+  }
+  return path_copy;
+}
 
+void rwa2group9::Algorithm::traceback_path(std::vector<std::pair<int, int>>& path) {
+  Simulator::clearAllColor();
+
+  this->robot->turn_left();
+  this->robot->turn_left();
+
+  std::pair<int, int> current_pos = path.at(path.size() - 1);
+
+  for (int i = path.size() - 2; i >= 0; --i) {
+    std::pair<int, int> next_pos = path.at(i);
+
+
+  }
 }
 
 void rwa2group9::Algorithm::run(const std::string direction) {
@@ -201,6 +237,9 @@ void rwa2group9::Algorithm::run(const std::string direction) {
     this->path.push_back(this->robot->at());
     std::cerr << *this << std::endl;
   }
+
+  std::vector<std::pair<int, int>> simple_path = this->remove_loops_in_path();
+  this->traceback_path(simple_path);
 }
 
 std::ostream& rwa2group9::operator<<(std::ostream& os, const rwa2group9::Algorithm& algo) {

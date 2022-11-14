@@ -38,8 +38,8 @@ private:
   void reset_members();
   void reset_simulator();
   void detect_walls();
-  void remove_loops_in_path();
-  void traceback_path();
+  std::vector<std::pair<int, int>> remove_loops_in_path();
+  void traceback_path(std::vector<std::pair<int, int>>& path);
 };
 
 std::ostream& operator<<(std::ostream& os, const Algorithm& algo);
